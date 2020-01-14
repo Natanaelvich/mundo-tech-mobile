@@ -8,6 +8,7 @@ const style = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     alignItems: 'center',
+    width: '100%',
   },
   form: {
     flexDirection: 'row',

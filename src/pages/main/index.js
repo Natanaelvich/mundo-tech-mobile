@@ -1,5 +1,4 @@
-import propTypes from 'prop-types';
-import React, {Component} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   ActivityIndicator,
   Keyboard,
@@ -9,83 +8,81 @@ import {
 } from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import PromoSlider from '../../components/PromoSlider';
 import api from '../../services/api';
 import style from './style';
+import {useSelector, useDispatch} from 'react-redux';
 
-export default class Main extends Component {
-  static propTypes = {
-    navigation: propTypes.shape({
-      navigate: propTypes.func,
-    }).isRequired,
-  };
+export default function Main({navigation}) {
+  const [loading, setLoading] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [datas, setDatas] = useState([]);
+  const [produto, setProduto] = useState('');
+  const ProdutosRedux = useSelector(state => state.PRODUTOS);
+  const dispatch = useDispatch();
 
-  state = {
-    loading: false,
-    datas: [],
-    produto: '',
-  };
+  useEffect(() => {
+    onUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  onUpdate = async () => {
+  const onUpdate = useCallback(async () => {
+    setLoadingList(true);
     const response = await api.get('/api/GET/');
-    this.setState({datas: response.data});
-  };
-  async componentDidMount() {
-    //buscando dados api
-    this.onUpdate();
-    console.log('oi aki');
-  }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.state.datas !== nextState.datas) {
-  //     this.onUpdate();
-  //   }
-  // }
+    setLoadingList(false);
+    setDatas(response.data);
+    dispatch(setProdutosRedux(response.data));
+    console.log('denovo..');
+  }, [dispatch]);
 
-  handleAddProduct = async () => {
-    const {produto} = this.state;
-    this.setState({loading: true});
+  function setProdutosRedux(data) {
+    return {
+      type: 'SET_PRODUTO',
+      data,
+    };
+  }
+  async function handleAddProduct() {
+    setLoading(true);
     const response = await api.get(`/api/GET/?pesquisa=${produto}`);
-    this.setState({datas: response.data, loading: false});
+    setLoading(false);
+    setDatas(response.data);
     Keyboard.dismiss();
-  };
-
-  handleNavigate = user => {
-    const {navigation} = this.props;
-    navigation.navigate('User', {user});
-  };
-
-  render() {
-    const {loading, datas, produto} = this.state;
-    return (
-      <View style={style.container}>
-        <View style={style.form}>
-          <TextInput
-            style={style.input}
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Buscar Produto"
-            value={produto}
-            onChangeText={txt => this.setState({produto: txt})}
-            returnKeyType="send"
-            onSubmitEditing={this.handleAddProduct}
-          />
-          <RectButton
-            loading={loading}
-            style={style.button}
-            onPress={this.handleAddProduct}>
-            {loading ? (
-              <ActivityIndicator color="#fff" size={28} />
-            ) : (
-              <Icon name="search" size={28} color="#fff" />
-            )}
-          </RectButton>
-        </View>
-
-        <View style={style.promoSliderContainer}>
-          <StatusBar backgroundColor="#7159c1" barStyle="light-content" />
-          <PromoSlider data={datas} nav={this.props.navigation.navigate} />
-        </View>
-      </View>
-    );
   }
+
+  return (
+    <View style={style.container}>
+      <View style={style.form}>
+        <TextInput
+          style={style.input}
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="Buscar Produto"
+          value={produto}
+          onChangeText={txt => setProduto(txt)}
+          returnKeyType="send"
+          onSubmitEditing={handleAddProduct}
+        />
+        <RectButton
+          loading={loading}
+          style={style.button}
+          onPress={handleAddProduct}>
+          {loading ? (
+            <ActivityIndicator color="#fff" size={28} />
+          ) : (
+            <Icon name="search" size={28} color="#fff" />
+          )}
+        </RectButton>
+      </View>
+
+      <View style={style.promoSliderContainer}>
+        <StatusBar backgroundColor="#7159c1" barStyle="light-content" />
+        {loadingList ? (
+          <ActivityIndicator color="#111" size={28} />
+        ) : (
+          <PromoSlider data={ProdutosRedux} nav={navigation.navigate} />
+        )}
+      </View>
+    </View>
+  );
 }

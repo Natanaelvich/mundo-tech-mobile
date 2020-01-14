@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   PromoSliderList,
@@ -9,8 +9,6 @@ import {
   PromoSliderTitle,
 } from './styles';
 
-import {Separator} from '../RestaurantList/styles';
-
 export default class PromoSlider extends PureComponent {
   state = {
     img: 'http://apinatanaelima-com.umbler.net/api/imgs/carregador.png',
@@ -18,12 +16,10 @@ export default class PromoSlider extends PureComponent {
   handleNavigate = Product => {
     const {nav} = this.props;
 
-    nav('User', {Product});
+    nav('Venda', {Product});
   };
 
   render() {
-    const {img} = this.state;
-
     return (
       <PromoSliderList
         nav={this.props.navigation}
@@ -35,15 +31,17 @@ export default class PromoSlider extends PureComponent {
             key={item.id}
             onPress={() => this.handleNavigate(item)}>
             <PromoSliderItem>
-              <PromoSliderImage source={{uri: img}} />
+              <PromoSliderImage
+                resizeMode="contain"
+                source={{uri: item.avatar}}
+              />
               <PromoSliderTitle>
-                <Text>{item.descricao}</Text>
+                <Text numberOfLines={1}>{item.descricao}</Text>
               </PromoSliderTitle>
               <PromoSliderFooter>
-                <Text style={{color: '#4CCA4C'}}>R$ {item.preco}</Text>
-                <Separator />
-                <Text> Quantidade : </Text>
-                <Text style={{color: '#EB5F15'}}>{item.quantidade}</Text>
+                <Text style={styles.txtPreco}>R$ {item.preco}</Text>
+                <Text> Quanti.. : </Text>
+                <Text style={styles.txtDescricao}>{item.quantidade}</Text>
               </PromoSliderFooter>
             </PromoSliderItem>
           </TouchableOpacity>
@@ -56,3 +54,12 @@ export default class PromoSlider extends PureComponent {
 PromoSlider.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+const styles = StyleSheet.create({
+  txtPreco: {
+    color: '#4CCA4C',
+  },
+  txtDescricao: {
+    color: '#EB5F15',
+  },
+});

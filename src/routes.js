@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Main from './pages/main';
-import User from './pages/user';
+import Venda from '././pages/venda';
 import Vendas from './pages/vendas';
 Main.navigationOptions = {
   tile: 'Main',
@@ -18,7 +18,12 @@ const saidaRoute = createStackNavigator(
         title: 'Saída',
       },
     },
-    User,
+    Venda: {
+      screen: Venda,
+      navigationOptions: {
+        title: 'Venda',
+      },
+    },
   },
   {
     headerLayoutPreset: 'center',
@@ -45,10 +50,8 @@ const MenuRoutes = {
     },
   },
   Vendas: {
-    name: 'Add',
     screen: Vendas,
     navigationOptions: {
-      title: 'Vendas',
       tabBarIcon: ({tintColor}) => (
         <Icon name="list" size={30} color={tintColor} />
       ),
