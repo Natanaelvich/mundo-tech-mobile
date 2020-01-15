@@ -1,64 +1,34 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
-import api from '../../services/api';
-import {useSelector, useDispatch} from 'react-redux';
+import React from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {useSelector} from 'react-redux';
 
 export default function Vendas({navigation}) {
-  const [data, setData] = useState([]);
-  const [loadingList, setLoadingList] = useState(false);
-  const Vendas = useSelector(state => state.VENDAS);
-  const dispatch = useDispatch();
-
-  async function getDados() {
-    setLoadingList(true);
-    const response = await api.get('/api/Venda/return-data.php');
-    setLoadingList(false);
-    setData(response.data);
-  }
-
-  useEffect(() => {
-    getDados();
-    console.log('vendas denovo');
-  }, []);
+  const vendas = useSelector(state => state.VENDAS);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.txtVendas}>Vendas</Text>
       </View>
-      {loadingList ? (
-        <ActivityIndicator color="#111" size={28} />
-      ) : (
-        <FlatList
-          data={Vendas}
-          keyExtractor={item => String(item.id)}
-          renderItem={({item}) => (
-            <View key={item.id} style={styles.itemContainer}>
-              <Text>Codigo : {item.id} </Text>
-              <Text style={styles.descricao}>Produto : {item.descricao}</Text>
-              <Text style={styles.descricao}>
-                Quantidade : {item.quantidade}
-              </Text>
+      <FlatList
+        data={vendas}
+        keyExtractor={item => String(item.id)}
+        renderItem={({item}) => (
+          <View key={item.id} style={styles.itemContainer}>
+            <Text>Codigo : {item.id} </Text>
+            <Text style={styles.descricao}>Produto : {item.descricao}</Text>
+            <Text style={styles.descricao}>Quantidade : {item.quantidade}</Text>
 
-              <Text style={styles.descricao}>
-                Data&Hora : {item.created_at}
-              </Text>
-              <Text style={styles.preco}>
-                Total : R${item.preco * item.quantidade}
-              </Text>
-            </View>
-          )}
-        />
-      )}
+            <Text style={styles.descricao}>Data&Hora : {item.created_at}</Text>
+            <Text style={styles.preco}>
+              Total : R${item.preco * item.quantidade}
+            </Text>
+          </View>
+        )}
+      />
 
       <View style={styles.txtVendas}>
-        <Text style={styles.vendas}>Vendas : {data.length}</Text>
+        <Text style={styles.vendas}>Vendas : {vendas.length}</Text>
       </View>
     </View>
   );
@@ -67,11 +37,12 @@ export default function Vendas({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   header: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#7159c1',
+    backgroundColor: '#078BA0',
   },
   itemContainer: {
     alignItems: 'center',
@@ -81,10 +52,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 50,
     borderBottomWidth: 1,
-    borderBottomColor: '#7159c1',
+    borderBottomColor: '#078BA0',
   },
   descricao: {
-    color: '#7159c1',
+    color: '#078BA0',
     fontSize: 15,
   },
   preco: {
@@ -106,6 +77,6 @@ const styles = StyleSheet.create({
   vendas: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#7159c1',
+    color: '#078BA0',
   },
 });

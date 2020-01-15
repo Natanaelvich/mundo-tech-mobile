@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   promoSliderContainer: {
     flex: 1,
@@ -29,7 +30,7 @@ const style = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#7159c1',
+    backgroundColor: '#078BA0',
     borderRadius: 4,
     marginLeft: 10,
     paddingHorizontal: 12,
@@ -65,7 +66,7 @@ const style = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'stretch',
     borderRadius: 4,
-    backgroundColor: '#7159c1',
+    backgroundColor: '#078BA0',
     justifyContent: 'center',
     alignItems: 'center',
     height: 36,

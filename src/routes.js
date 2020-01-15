@@ -30,7 +30,7 @@ const saidaRoute = createStackNavigator(
     headerBackTitleVisible: false,
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#7159c1',
+        backgroundColor: '#078BA0',
       },
       headerTintColor: '#fff',
     },

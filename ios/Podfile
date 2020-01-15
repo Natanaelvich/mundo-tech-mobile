@@ -38,6 +38,8 @@ target 'mundo_tech' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
   target 'mundo_techTests' do
     inherit! :search_paths
     # Pods for testing
