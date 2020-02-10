@@ -24,7 +24,7 @@ export default class PromoSlider extends PureComponent {
       <PromoSliderList
         nav={this.props.navigation}
         data={this.props.data}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={item => String(item._id)}
         numColumns={2}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -33,15 +33,15 @@ export default class PromoSlider extends PureComponent {
             <PromoSliderItem>
               <PromoSliderImage
                 resizeMode="contain"
-                source={{uri: item.avatar}}
+                source={{uri: item.url_image}}
               />
               <PromoSliderTitle>
-                <Text numberOfLines={1}>{item.descricao}</Text>
+                <Text numberOfLines={1}>{item.name}</Text>
               </PromoSliderTitle>
               <PromoSliderFooter>
                 <Text style={styles.txtPreco}>R$ {item.preco}</Text>
                 <Text> Quanti.. : </Text>
-                <Text style={styles.txtDescricao}>{item.quantidade}</Text>
+                <Text style={styles.txtDescricao}>{item.amount}</Text>
               </PromoSliderFooter>
             </PromoSliderItem>
           </TouchableOpacity>

@@ -7,7 +7,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import back from '../../../assets/sem-conexao.png';
-// import { Container } from './styles';
 
 export default function NoConnection(props) {
   return (

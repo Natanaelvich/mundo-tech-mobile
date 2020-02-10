@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
+import {styles} from './styles';
 export default function Vendas({navigation}) {
   const vendas = useSelector(state => state.VENDAS);
 
@@ -12,16 +13,23 @@ export default function Vendas({navigation}) {
       </View>
       <FlatList
         data={vendas}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={item => String(item._id)}
         renderItem={({item}) => (
-          <View key={item.id} style={styles.itemContainer}>
-            <Text>Codigo : {item.id} </Text>
-            <Text style={styles.descricao}>Produto : {item.descricao}</Text>
-            <Text style={styles.descricao}>Quantidade : {item.quantidade}</Text>
+          <View key={item._id} style={styles.itemContainer}>
+            <View style={styles.headerBox}>
+              <Image
+                source={{uri: item.product.url_image}}
+                style={styles.image}
+              />
+              <Text style={styles.descricao}>
+                Produto : {item.product.name}
+              </Text>
+            </View>
+            <Text style={styles.descricao}>Quantidade : {item.amount}</Text>
 
-            <Text style={styles.descricao}>Data&Hora : {item.created_at}</Text>
+            <Text style={styles.descricao}>Data&Hora : {item.createdAt}</Text>
             <Text style={styles.preco}>
-              Total : R${item.preco * item.quantidade}
+              Total : R${item.product.price * item.amount}
             </Text>
           </View>
         )}
@@ -33,50 +41,3 @@ export default function Vendas({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#078BA0',
-  },
-  itemContainer: {
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#f1f1f1',
-    marginBottom: 10,
-    marginHorizontal: 10,
-    borderRadius: 50,
-    borderBottomWidth: 1,
-    borderBottomColor: '#078BA0',
-  },
-  descricao: {
-    color: '#078BA0',
-    fontSize: 15,
-  },
-  preco: {
-    backgroundColor: 'green',
-    padding: 10,
-    marginTop: 8,
-    borderRadius: 30,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  txtVendas: {
-    alignItems: 'center',
-    paddingVertical: 10,
-    marginHorizontal: 70,
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffff',
-  },
-  vendas: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#078BA0',
-  },
-});

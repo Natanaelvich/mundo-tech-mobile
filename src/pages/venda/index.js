@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import InputSpinner from 'react-native-input-spinner';
 import {SCLAlert} from 'react-native-scl-alert';
@@ -18,23 +19,23 @@ import NoConnection from '../../components/noConnection';
 
 export default function Venda({navigation}) {
   const dispatch = useDispatch();
+  const product = navigation.getParam('Product');
 
+  const [loading, setLoading] = useState(false);
   const [number, setnumber] = useState(1);
-  const [total, settotal] = useState(navigation.getParam('Product').preco);
+  const [total, settotal] = useState(product.price);
   const [show, setshow] = useState(false);
   const [notConnection, setNotConnection] = useState(false);
-  const product = navigation.getParam('Product');
 
   function handleOpen() {
     setshow(true);
     const totais = total * number;
-    console.log(totais);
     settotal(totais);
   }
 
   function handleClose() {
     setshow(false);
-    settotal(navigation.getParam('Product').preco);
+    settotal(product.price);
   }
 
   function setProdutos(data) {
@@ -53,30 +54,39 @@ export default function Venda({navigation}) {
 
   // verificar internet e vender produto
   function venderProduct() {
+    setLoading(true);
     NetInfo.fetch().then(async state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-
       if (!state.isInternetReachable) {
         setNotConnection(true);
       } else {
-        const id = navigation.getParam('Product').id;
         const quantidade = number;
 
-        await api.post('/api/Venda/', {
-          id: id,
-          quantidade: quantidade,
-          total: total,
-          user: 'natanvich',
-          pass: 'natanvich1997',
-        });
+        await api
+          .post(
+            '/sales',
+            {
+              amount: quantidade,
+              total: total,
+            },
+            {
+              headers: {
+                product: product._id,
+              },
+            },
+          )
+          .then(async () => {
+            const responseProdutos = await api.get('/products');
+            dispatch(setProdutos(responseProdutos.data));
 
-        const responseProdutos = await api.get('/api/GET/');
-        dispatch(setProdutos(responseProdutos.data));
-
-        const responseVendas = await api.get('/api/Venda/return-data.php');
-        dispatch(setVendas(responseVendas.data));
-        navigation.navigate('Main');
+            const responseVendas = await api.get('/sales');
+            dispatch(setVendas(responseVendas.data));
+            setLoading(false);
+            navigation.navigate('Main');
+          })
+          .catch(err => {
+            Alert.alert('Erro : ' + err);
+            setLoading(false);
+          });
       }
     });
   }
@@ -85,9 +95,6 @@ export default function Venda({navigation}) {
 
   function refresh() {
     NetInfo.fetch().then(async state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-
       if (!state.isInternetReachable) {
         Alert.alert('conectes-se a internet e tente novamente');
       } else {
@@ -103,10 +110,10 @@ export default function Venda({navigation}) {
       ) : (
         <View style={style.container}>
           <View style={style.header}>
-            <Image source={{uri: product.avatar}} style={style.avatar} />
-            <Text style={style.name}>{product.descricao}</Text>
-            <Text style={style.bio}>Preço : R$ {product.preco}</Text>
-            <Text style={style.qtd}>Quantidade : {product.quantidade}</Text>
+            <Image source={{uri: product.url_image}} style={style.avatar} />
+            <Text style={style.name}>{product.name}</Text>
+            <Text style={style.bio}>Preço : R$ {product.price}</Text>
+            <Text style={style.qtd}>Quantidade : {product.amount}</Text>
           </View>
           <View style={styles.contentBody}>
             <InputSpinner
@@ -131,14 +138,18 @@ export default function Venda({navigation}) {
               title="Confirmar?"
               subtitle="veja se as informações coferem">
               <View style={styles.areaConfirm}>
-                <Text style={style.name}>{product.descricao}</Text>
-                <Text style={style.bio}>Preço : R$ {product.preco}</Text>
+                <Text style={style.name}>{product.name}</Text>
+                <Text style={style.bio}>Preço : R$ {product.price}</Text>
                 <Text style={style.qtd}>Venda : {number}</Text>
                 <Text style={styles.totalTXT}>Total : R$ {total}</Text>
                 <TouchableOpacity
                   style={styles.buttonVenda}
                   onPress={venderProduct}>
-                  <Text style={styles.txtButtonVenda}>Vender</Text>
+                  {loading ? (
+                    <ActivityIndicator color="#fff" size={34} />
+                  ) : (
+                    <Text style={styles.txtButtonVenda}>Vender</Text>
+                  )}
                 </TouchableOpacity>
               </View>
             </SCLAlert>

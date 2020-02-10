@@ -27,9 +27,6 @@ export default function Main({navigation}) {
 
   useEffect(() => {
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-
       if (!state.isInternetReachable) {
         setNotConnection(true);
       } else {
@@ -42,10 +39,10 @@ export default function Main({navigation}) {
 
   async function onUpdate() {
     setLoadingList(true);
-    const response = await api.get('/api/GET/');
+    const response = await api.get('/products');
     setLoadingList(false);
     dispatch(setProdutosRedux(response.data));
-    const responseVendas = await api.get('/api/Venda/return-data.php');
+    const responseVendas = await api.get('/sales');
     dispatch(setVendas(responseVendas.data));
   }
 
@@ -72,9 +69,6 @@ export default function Main({navigation}) {
 
   function refresh() {
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-
       if (!state.isInternetReachable) {
         Alert.alert('conecte-se a uma rede e tente novamamente');
         setNotConnection(true);
