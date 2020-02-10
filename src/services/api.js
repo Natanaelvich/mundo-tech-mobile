@@ -1,8 +1,7 @@
 import axios from 'axios';
-import 'dotenv/config';
 
 const api = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: 'https://mundotechbackend.herokuapp.com',
 });
 
 export default api;
