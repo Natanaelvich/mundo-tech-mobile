@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, FlatList, Image} from 'react-native';
 import {useSelector} from 'react-redux';
+import Moment from 'moment';
 
 import {styles} from './styles';
 export default function Vendas({navigation}) {
@@ -21,22 +22,22 @@ export default function Vendas({navigation}) {
                 source={{uri: item.product.url_image}}
                 style={styles.image}
               />
-              <Text style={styles.descricao}>
-                Produto : {item.product.name}
-              </Text>
+              <Text style={styles.descricao}>Produto: {item.product.name}</Text>
             </View>
             <Text style={styles.descricao}>Quantidade : {item.amount}</Text>
 
-            <Text style={styles.descricao}>Data&Hora : {item.createdAt}</Text>
+            <Text style={styles.descricao}>
+              Data/Hora: {Moment(item.createdAt).format('DD/MM/Y HH:mm')}
+            </Text>
             <Text style={styles.preco}>
-              Total : R${item.product.price * item.amount}
+              Total: R${item.product.price * item.amount}
             </Text>
           </View>
         )}
       />
 
       <View style={styles.txtVendas}>
-        <Text style={styles.vendas}>Vendas : {vendas.length}</Text>
+        <Text style={styles.vendas}>Vendas: {vendas.length}</Text>
       </View>
     </View>
   );
