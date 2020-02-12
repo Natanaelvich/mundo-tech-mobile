@@ -1,10 +1,8 @@
 import styled from 'styled-components/native';
 
 export const PromoSliderList = styled.FlatList.attrs({
-  // contentContainerStyle: {paddingLeft: 1, paddingRight: 1},
-  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
   bounces: false,
-  // horizontal: true,
 })`
   background-color: #fff;
   margin-bottom: 10px;

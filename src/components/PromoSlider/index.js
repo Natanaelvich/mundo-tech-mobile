@@ -39,7 +39,7 @@ export default class PromoSlider extends PureComponent {
                 <Text numberOfLines={1}>{item.name}</Text>
               </PromoSliderTitle>
               <PromoSliderFooter>
-                <Text style={styles.txtPreco}>R$ {item.preco}</Text>
+                <Text style={styles.txtPreco}>R$ {item.price}</Text>
                 <Text> Quanti.. : </Text>
                 <Text style={styles.txtDescricao}>{item.amount}</Text>
               </PromoSliderFooter>
@@ -58,6 +58,7 @@ PromoSlider.propTypes = {
 const styles = StyleSheet.create({
   txtPreco: {
     color: '#4CCA4C',
+    marginRight: 5,
   },
   txtDescricao: {
     color: '#EB5F15',
