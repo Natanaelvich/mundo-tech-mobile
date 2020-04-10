@@ -51,11 +51,12 @@ To run those 3 commands you can just do
  
  ## ScreenShots
 <span align='center'>
- <img style="float: left;" src='https://user-images.githubusercontent.com/52014318/74213207-006a3100-4c77-11ea-97a8-fa7204200edc.jpg' height='500' />        
- <img style="float: right; margin-left:auto" src='https://user-images.githubusercontent.com/52014318/74213209-019b5e00-4c77-11ea-9d02-73def249476f.jpg' height='500' />
- 
-   <img src='https://user-images.githubusercontent.com/52014318/74213210-0233f480-4c77-11ea-968f-837e673c1263.jpg' height='500'  />     
-   
+<p>Sale and DetailSale</p>
+ <img style="float: left;" src='https://user-images.githubusercontent.com/52014318/74213207-006a3100-4c77-11ea-97a8-fa7204200edc.jpg' height='500' />      
    <img  src='https://user-images.githubusercontent.com/52014318/74213211-0233f480-4c77-11ea-898a-75b6e3e6907c.jpg' height='500'/>
+   <p>ProductList and Sales</p>
+    <img    <img src='https://user-images.githubusercontent.com/52014318/74213210-0233f480-4c77-11ea-968f-837e673c1263.jpg' height='500'  />     
+    
+ <img style="float: right; margin-left:auto" src='https://user-images.githubusercontent.com/52014318/74213209-019b5e00-4c77-11ea-9d02-73def249476f.jpg' height='500' />
 </span>
 
