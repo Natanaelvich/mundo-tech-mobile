@@ -32,3 +32,15 @@ For development, you will only need Node.js installed on your environement.
  <img style="float: right; margin-left:auto" src='https://user-images.githubusercontent.com/52014318/74213209-019b5e00-4c77-11ea-9d02-73def249476f.jpg' height='500' />
 </span>
 
+## License
+
+Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
+
+---
+
+## Author
+
+Make by Natanael Lima 👋🏽 contact!
+
+[![Linkedin Badge](https://img.shields.io/badge/-Natanelvich-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/natanaelvich/)](https://www.linkedin.com/in/natanaelvich/)
+[![Gmail Badge](https://img.shields.io/badge/-taelima1997@gmail.com-red?style=flat-square&link=mailto:taelima1997@gmail.com)](mailto:taelima1997@gmail.com)
